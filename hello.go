@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"hangout.com/core/storage-service/morestrings"
+)
 
 func main() {
-	fmt.Println("Hello, world.")
+	fmt.Println(morestrings.ReverseRunes("!oG ,olleH"))
 }
