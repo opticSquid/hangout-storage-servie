@@ -12,5 +12,5 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-If you find a vulnerability please promptly report it to the issues section with a badge of `vulnerability`. You will be duely acknowlwdged and creadited for the finding and reporing of the vulnerabilty. 
+If you find a vulnerability please promptly report it to the issues section with a badge of `vulnerability`. You will be duely acknowledged and creadited for the finding and reporing of the vulnerabilty. 
 In this current state we can not monetarily compensate the reporter of the vulnerability but we will try our best to acknowledge and credit you for your findings.
