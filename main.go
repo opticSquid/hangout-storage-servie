@@ -15,5 +15,5 @@ func main() {
 	} else {
 		log = logger.NewZeroLogger(&cfg)
 	}
-	log.Debug("logging is working", "log-backend", cfg.Log.Backend)
+	log.Info("starting Hangout Storage Service", "logging-backend", cfg.Log.Backend)
 }

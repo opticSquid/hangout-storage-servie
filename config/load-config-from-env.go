@@ -1,13 +1,16 @@
 package config
 
 import (
+	"log"
+
 	"github.com/kelseyhightower/envconfig"
-	"hangout.com/core/storage-service/exceptions"
 )
 
 func ReadEnv(cfg *Config) {
+	log.Println("Loading configuration from env variables")
 	err := envconfig.Process("", cfg)
 	if err != nil {
-		exceptions.ProcessError(err)
+		configLoadError(&err)
 	}
+	log.Println("Configuration loading complete...")
 }

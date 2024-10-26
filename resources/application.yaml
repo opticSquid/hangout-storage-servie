@@ -1,6 +1,7 @@
 kafka:
   host: "localhost"
   port: 9092
+  topic: content
 log:
   level: debug
   backend: slog
