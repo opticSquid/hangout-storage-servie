@@ -1,6 +1,6 @@
 # Hangout Source-Available License
 
-**Last Updated:** [26-10-2024]
+**Last Updated:** 26-10-2024
 
 ## License Summary
 
@@ -14,7 +14,7 @@ This software (the "Software") is provided under the terms of this Hangout Sourc
 
 ## Restrictions
 
-1. **Redistribution and Forking**: Users are **not permitted** to fork, copy, or redistribute the Software in any form, modified or unmodified.
+1. **Redistribution and Forking**: Users are **not permitted** to copy, or redistribute the Software in any form, modified or unmodified. Users are **not permitted** to fork the repository other than the sole purpose of contributing back in some **substantial form** to this repository.
 
 2. **Usage**: This Software is provided for reference and contribution purposes only. Commercial and non-commercial use is **not permitted**.
 
@@ -27,6 +27,7 @@ All rights, title, and interest in the Software, including contributions made by
 ## Attribution
 
 Users who contribute new features that are accepted and merged into the Software will receive appropriate attribution in any relevant documentation, release notes, or other acknowledgments.
+Visit here to read about the [Contributors License Agreement (CLA)](https://gist.github.com/opticSquid/9739d0fe0ae090f4dd9c124b9a3dac8c). If anyone of the committers in a pull request has not signed the CLA it would not be possible to merge the pull request to this repository.
 
 ---
 
