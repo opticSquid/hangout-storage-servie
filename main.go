@@ -2,7 +2,7 @@ package main
 
 import (
 	"hangout.com/core/storage-service/config"
-	"hangout.com/core/storage-service/consumer"
+	"hangout.com/core/storage-service/kafka"
 	"hangout.com/core/storage-service/logger"
 )
 
@@ -17,5 +17,12 @@ func main() {
 		log = logger.NewZeroLogger(&cfg)
 	}
 	log.Info("starting Hangout Storage Service", "logging-backend", cfg.Log.Backend)
-	consumer.Consume(&cfg, log)
+	event, err := kafka.Consume(&cfg, log)
+	if err != nil {
+		log.Error("could not consume events from kakfa")
+	}
+	for e := range event {
+		log.Info("file uploaded", "content-type", e.ContentType, "file name", e.Filename)
+	}
+
 }
