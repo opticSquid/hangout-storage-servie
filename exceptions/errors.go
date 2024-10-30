@@ -6,17 +6,17 @@ import (
 	"hangout.com/core/storage-service/logger"
 )
 
-func ProcessError(err *error, log logger.Log) {
-	log.Error("Processing error occoured", "error", err)
+func ProcessError(msg string, err *error, log logger.Log) {
+	log.Error(msg, "error", err)
 	os.Exit(2)
 }
 
-func KafkaConnectError(err *error, log logger.Log) {
-	log.Error("could not setup kafka connection", "error", err)
+func KafkaConnectError(msg string, err *error, log logger.Log) {
+	log.Error(msg, "error", err)
 	os.Exit(3)
 }
 
-func KafkaConsumerError(err *error, log logger.Log) {
-	log.Error("could not consume partition", "error", err)
+func KafkaConsumerError(msg string, err *error, log logger.Log) {
+	log.Error(msg, "error", err)
 	os.Exit(4)
 }
