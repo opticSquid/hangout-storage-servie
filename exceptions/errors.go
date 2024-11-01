@@ -1,11 +1,22 @@
 package exceptions
 
 import (
-	"fmt"
 	"os"
+
+	"hangout.com/core/storage-service/logger"
 )
 
-func ProcessError(err error) {
-	fmt.Println(err)
+func ProcessError(msg string, err *error, log logger.Log) {
+	log.Error(msg, "error", err)
 	os.Exit(2)
+}
+
+func KafkaConnectError(msg string, err *error, log logger.Log) {
+	log.Error(msg, "error", err)
+	os.Exit(3)
+}
+
+func KafkaConsumerError(msg string, err *error, log logger.Log) {
+	log.Error(msg, "error", err)
+	os.Exit(4)
 }

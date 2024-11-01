@@ -1,3 +1,17 @@
 kafka:
-  host: "localhost"
+  host: localhost
   port: 9092
+  topic: content
+  group-id: hangout-storage-service
+
+log:
+  level: debug
+  backend: zerolog
+
+hangout:
+  media:
+    upload-path: /home/soumalya/Development/Hangout/shared-path
+    queue-length: 100
+  worker-pool:
+    strength: 4
+  

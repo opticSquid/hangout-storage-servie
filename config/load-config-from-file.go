@@ -1,24 +1,26 @@
 package config
 
 import (
+	"log"
 	"os"
 
 	"gopkg.in/yaml.v3"
-
-	"hangout.com/core/storage-service/exceptions"
 )
 
 func ReadFile(cfg *Config) {
+	log.SetFlags(log.Ldate | log.Lshortfile)
 	// file path relative to project root directory
 	f, err := os.Open("./resources/application.yaml")
+	log.Println("Loading configuration from file")
 	if err != nil {
-		exceptions.ProcessError(err)
+		configLoadError(&err)
 	}
 	defer f.Close()
 
 	decoder := yaml.NewDecoder(f)
 	err = decoder.Decode(cfg)
 	if err != nil {
-		exceptions.ProcessError(err)
+		configLoadError(&err)
 	}
+	log.Println("Configuration loading complete...")
 }
