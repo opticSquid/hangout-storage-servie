@@ -10,19 +10,15 @@ func main() {
 	var cfg config.Config
 	config.ReadFile(&cfg)
 	config.ReadEnv(&cfg)
-	var log logger.Log
-	if cfg.Log.Backend == "slog" {
-		log = logger.NewSlogLogger(&cfg)
-	} else {
-		log = logger.NewZeroLogger(&cfg)
-	}
+	log := logger.NewLogger(&cfg)
 	log.Info("starting Hangout Storage Service", "logging-backend", cfg.Log.Backend)
-	event, err := kafka.Consume(&cfg, log)
+	log.Info("printing current configurtion", "config", cfg)
+	log.Info("starting kafka consumer using ConsumerGroup API")
+	files, err := kafka.StartConsumer(&cfg, log)
 	if err != nil {
-		log.Error("could not consume events from kakfa")
+		log.Error("Error starting Consumer Group")
 	}
-	for e := range event {
-		log.Info("file uploaded", "content-type", e.ContentType, "file name", e.Filename)
+	for file := range files {
+		log.Info("file uploaded", "filename", file.Filename)
 	}
-
 }

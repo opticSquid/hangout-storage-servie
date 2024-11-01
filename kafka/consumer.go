@@ -13,15 +13,18 @@ import (
 	"hangout.com/core/storage-service/media"
 )
 
+// Implements Kafka Consumer API.
+// Consumes only a single partition very low level. Does not support multi instance
+// ** It is not being used in main program just kept as backup
 func Consume(cfg *config.Config, log logger.Log) (chan media.Media, error) {
 	msgCount := 0
 	worker, err := connectConsumer(cfg)
 	if err != nil {
-		exceptions.KafkaConnectError(&err, log)
+		exceptions.KafkaConnectError("could not setup kafka connection", &err, log)
 	}
 	consumer, err := worker.ConsumePartition(cfg.Kafka.Topic, 0, sarama.OffsetNewest)
 	if err != nil {
-		exceptions.KafkaConsumerError(&err, log)
+		exceptions.KafkaConsumerError("could not start consuming partition", &err, log)
 	}
 	log.Info("Kafka consumer started")
 
@@ -35,7 +38,7 @@ func Consume(cfg *config.Config, log logger.Log) (chan media.Media, error) {
 		<-doneChan
 		log.Debug("Routine completed", "processed event count", msgCount)
 		if err := worker.Close(); err != nil {
-			exceptions.KafkaConnectError(&err, log)
+			exceptions.KafkaConnectError("could not close kafka connection", &err, log)
 		}
 		close(eventChan) // Close eventChan when done
 	}()
@@ -45,8 +48,8 @@ func Consume(cfg *config.Config, log logger.Log) (chan media.Media, error) {
 func connectConsumer(cfg *config.Config) (sarama.Consumer, error) {
 	kafkaConfig := sarama.NewConfig()
 	kafkaConfig.Consumer.Return.Errors = true
-	broker := []string{fmt.Sprintf("%s:%s", cfg.Kafka.Host, cfg.Kafka.Port)}
-	return sarama.NewConsumer(broker, kafkaConfig)
+	brokers := []string{fmt.Sprintf("%s:%s", cfg.Kafka.Host, cfg.Kafka.Port)}
+	return sarama.NewConsumer(brokers, kafkaConfig)
 }
 
 func consumeEvents(consumer sarama.PartitionConsumer, eventChan chan<- media.Media, sigChan <-chan os.Signal, doneChan chan<- struct{}, log logger.Log, msgCount *int) {
