@@ -9,14 +9,14 @@ import (
 	"github.com/IBM/sarama"
 	"hangout.com/core/storage-service/config"
 	"hangout.com/core/storage-service/exceptions"
+	"hangout.com/core/storage-service/files"
 	"hangout.com/core/storage-service/logger"
-	"hangout.com/core/storage-service/media"
 )
 
 // Implements Kafka Consumer API.
 // Consumes only a single partition very low level. Does not support multi instance
 // ** It is not being used in main program just kept as backup
-func Consume(cfg *config.Config, log logger.Log) (chan media.Media, error) {
+func Consume(cfg *config.Config, log logger.Log) (chan files.File, error) {
 	msgCount := 0
 	worker, err := connectConsumer(cfg)
 	if err != nil {
@@ -30,7 +30,7 @@ func Consume(cfg *config.Config, log logger.Log) (chan media.Media, error) {
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
-	eventChan := make(chan media.Media, cfg.Hangout.Media.QLength)
+	eventChan := make(chan files.File, cfg.Hangout.Media.QLength)
 	doneChan := make(chan struct{})
 	go consumeEvents(consumer, eventChan, sigChan, doneChan, log, &msgCount)
 	// Handle cleanup in a separate goroutine to keep function non-blocking
@@ -52,14 +52,14 @@ func connectConsumer(cfg *config.Config) (sarama.Consumer, error) {
 	return sarama.NewConsumer(brokers, kafkaConfig)
 }
 
-func consumeEvents(consumer sarama.PartitionConsumer, eventChan chan<- media.Media, sigChan <-chan os.Signal, doneChan chan<- struct{}, log logger.Log, msgCount *int) {
+func consumeEvents(consumer sarama.PartitionConsumer, eventChan chan<- files.File, sigChan <-chan os.Signal, doneChan chan<- struct{}, log logger.Log, msgCount *int) {
 	for {
 		select {
 		case err := <-consumer.Errors():
 			log.Error("Consumer runtime error occurred", "error", err)
 		case msg := <-consumer.Messages():
 			*msgCount++
-			event := media.Media{ContentType: string(msg.Key), Filename: string(msg.Value)}
+			event := files.File{ContentType: string(msg.Key), Filename: string(msg.Value)}
 			log.Debug("Event consumed", "order count", *msgCount, "topic", msg.Topic)
 			eventChan <- event
 		case <-sigChan:
