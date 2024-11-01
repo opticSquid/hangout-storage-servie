@@ -12,4 +12,6 @@ hangout:
   media:
     upload-path: /home/soumalya/Development/Hangout/shared-path
     queue-length: 100
+  worker-pool:
+    strength: 4
   

@@ -21,6 +21,9 @@ type Config struct {
 			UploadPath string `yaml:"upload-path", envconfig:"HANGOUT_MEDIA_UPLOAD_PATH"`
 			QLength    int    `yaml:"queue-length", envconfig:"HANGOUT_MEDIA_QUEUE_LENGTH"`
 		} `yaml:"media"`
+		WorkerPool struct {
+			Strength int `yaml:"strength", envconfig:"HANGOUT_WORKER_POOL_STRENGTH"`
+		} `yaml:"worker-pool"`
 	} `yaml:"hangout"`
 }
 
