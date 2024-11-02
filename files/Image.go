@@ -9,6 +9,6 @@ type image struct {
 	filename string
 }
 
-func (i image) processMedia(cfg *config.Config, log logger.Log) {
-
+func (i *image) processMedia(cfg *config.Config, log logger.Log) error {
+	return nil
 }

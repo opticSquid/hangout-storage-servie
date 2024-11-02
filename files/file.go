@@ -25,6 +25,9 @@ func (f *File) Process(cfg *config.Config, log logger.Log) error {
 		log.Debug("unsupported content type. can not process file", "contentType", f.ContentType)
 		return errors.New("unsupported file type received, contentType is: " + f.ContentType)
 	}
-	media.processMedia(cfg, log)
+	err := media.processMedia(cfg, log)
+	if err != nil {
+		return err
+	}
 	return nil
 }
