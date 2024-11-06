@@ -10,7 +10,7 @@ This software (the "Software") is provided under the terms of this Hangout Sourc
 
 1. **Issue Reporting and Feature Requests**: Users may report issues or request features via the issue tracker on the repository.
 
-2. **Feature Contributions**: Users may create new features or improvements and submit them as pull requests. Merging of any pull request is solely at the discretion of the repository owners. If a pull request is accepted and merged, the contributor will be attributed appropriately wherever the Software is used.
+2. **Feature Contributions**: Users may create new features or improvements and submit them as pull requests. Merging of any pull request is solely at the discretion of the repository owners. If a pull request is accepted and merged, the contributor will be attributed appropriately wherever the Software is used. They can showcase their individual work they have done here in job interviews and similar things and take credit for it.
 
 ## Restrictions
 
