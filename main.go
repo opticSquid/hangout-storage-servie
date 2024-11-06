@@ -40,7 +40,7 @@ func main() {
 
 	// Start the worker pool with the base context
 	log.Info("Creating worker pool", "pool-strength", cfg.Hangout.WorkerPool.Strength)
-	wp := worker.CreateWorkerPool(eventChan, ctx, cfg, log)
+	wp := worker.CreateWorkerPool(eventChan, ctx, &cfg, log)
 
 	// Start the Kafka consumer
 	log.Info("starting kafka consumer using ConsumerGroup API")
