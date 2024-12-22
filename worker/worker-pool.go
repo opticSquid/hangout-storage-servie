@@ -36,7 +36,7 @@ func (wp *WorkerPool) worker(workerId int) {
 				wp.log.Info("Event channel closed, stopping worker", "worker-id", workerId)
 				return
 			}
-			wp.log.Info("starting file processing", "file-name", event.Filename, "worker-id", workerId)
+			wp.log.Info("starting file processing", "file-name", event.Filename, "user-id", event.UserId, "worker-id", workerId)
 			// call file processing function here
 			err := event.Process(wp.cfg, wp.log)
 			if err != nil {

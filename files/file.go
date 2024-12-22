@@ -11,6 +11,7 @@ import (
 type File struct {
 	ContentType string
 	Filename    string
+	UserId      int32
 }
 
 func (f *File) Process(cfg *config.Config, log logger.Log) error {
