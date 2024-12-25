@@ -14,7 +14,7 @@ func Process2PassMode(inputFile string, outputFile string, log logger.Log) error
 	log.Debug("pipeline status", "encoder", "h264", "method", "2 pass", "status", "starting")
 	// doing 1st pass
 	cmd = exec.Command("ffmpeg", "-i", inputFile,
-		"-c:v", "libx264", "-pass", "1", "-passlogfile", outputFile, "-b:v", "2M", "-fps_mode", "cfr", "-vf", "scale=-2:1080", "-f", "null", "/dev/null",
+		"-c:v", "libx264", "-pass", "1", "-passlogfile", outputFile, "-b:v", "2M", "-fps_mode", "cfr", "-vf", "scale=-2:1080", "-an", "-f", "null", "/dev/null",
 	)
 	_, err = cmd.Output()
 	if err != nil {
@@ -25,7 +25,7 @@ func Process2PassMode(inputFile string, outputFile string, log logger.Log) error
 	// doing 2nd pass
 	// creating 1080p video in 2nd pass out of 1st pass log and mbtree files
 	cmd = exec.Command("ffmpeg", "-i", inputFile,
-		"-c:v", "libx264", "-pass:", "2", "-passlogfile", outputFile, "-b:v", "2M", "-fps_mode", "cfr", "-vf", "scale=-2:1080", outputFile+"_h264_1080p.mp4",
+		"-c:v", "libx264", "-pass:", "2", "-passlogfile", outputFile, "-b:v", "2M", "-fps_mode", "cfr", "-vf", "scale=-2:1080", "-an", outputFile+"_h264_1080p.mp4",
 	)
 	_, err = cmd.Output()
 	if err != nil {

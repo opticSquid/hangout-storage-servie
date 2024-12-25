@@ -12,8 +12,8 @@ func ProcessCRFmode(inputFile string, outputFile string, log logger.Log) error {
 	var err error
 	// creating 360p, 720p, 1080p using h264 crf mode
 	cmd = exec.Command("ffmpeg", "-i", inputFile,
-		"-c:v", "libx264", "-crf", "23", "-maxrate", "500k", "-bufsize", "1M", "-vf", "scale=-2:360", outputFile+"_h264_360p.mp4",
-		"-c:v", "libx264", "-crf", "23", "-maxrate", "1M", "-bufsize", "3M", "-vf", "scale=-2:720", outputFile+"_h264_720p.mp4",
+		"-c:v", "libx264", "-crf", "23", "-maxrate", "500k", "-bufsize", "1M", "-vf", "scale=-2:360", "-an", outputFile+"_h264_360p.mp4",
+		"-c:v", "libx264", "-crf", "23", "-maxrate", "1M", "-bufsize", "3M", "-vf", "scale=-2:720", "-an", outputFile+"_h264_720p.mp4",
 	)
 	_, err = cmd.Output()
 	if err != nil {
