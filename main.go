@@ -19,7 +19,7 @@ func main() {
 	config.ReadFile(&cfg)
 	config.ReadEnv(&cfg)
 	log := logger.NewLogger(&cfg)
-
+	log.Debug("printing current config", "config", cfg)
 	// Create a base context with a cancel function for the application lifecycle
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel() // Ensure cancel is called on application exit
@@ -36,10 +36,10 @@ func main() {
 	log.Info("starting Hangout Storage Service", "logging-backend", cfg.Log.Backend)
 
 	// Channel to handle incoming Kafka events
-	eventChan := make(chan *files.File, cfg.Hangout.Media.QLength)
+	eventChan := make(chan *files.File, cfg.Process.QueueLength)
 
 	// Start the worker pool with the base context
-	log.Info("Creating worker pool", "pool-strength", cfg.Hangout.WorkerPool.Strength)
+	log.Info("Creating worker pool", "pool-strength", cfg.Process.PoolStrength)
 	wp := worker.CreateWorkerPool(eventChan, ctx, &cfg, log)
 
 	// Start the Kafka consumer

@@ -8,11 +8,10 @@ log:
   level: debug
   backend: zerolog
 
-hangout:
-  media:
-    upload-path: /media/soumalya/793f3da3-8908-48a8-a4ce-a638275951fa/hangout-upload-path
-    processed-path: /media/soumalya/793f3da3-8908-48a8-a4ce-a638275951fa/hangout-processed-path
+path:
+    upload: /media/soumalya/793f3da3-8908-48a8-a4ce-a638275951fa/hangout-upload-path
+    storage: /media/soumalya/793f3da3-8908-48a8-a4ce-a638275951fa/hangout-processed-path
+    
+process:
     queue-length: 100
-  worker-pool:
-    strength: 4
-  
+    pool-strength: 4

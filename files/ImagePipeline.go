@@ -14,8 +14,8 @@ type image struct {
 
 func (i *image) processMedia(cfg *config.Config, log logger.Log) error {
 	splittedFilename := strings.Split(i.filename, ".")
-	inputFile := cfg.Hangout.Media.UploadPath + "/" + i.filename
-	outputFile := cfg.Hangout.Media.ProcessedPath + "/" + splittedFilename[0]
+	inputFile := cfg.Path.Upload + "/" + i.filename
+	outputFile := cfg.Path.Storage + "/" + splittedFilename[0]
 	err := convertToAvif(inputFile, outputFile, log)
 	return err
 
