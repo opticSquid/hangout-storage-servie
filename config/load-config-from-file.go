@@ -13,14 +13,14 @@ func ReadFile(cfg *Config) {
 	f, err := os.Open("./resources/application.yaml")
 	log.Println("Loading configuration from file")
 	if err != nil {
-		configLoadError(&err)
+		configLoadError("file", &err)
 	}
 	defer f.Close()
 
 	decoder := yaml.NewDecoder(f)
 	err = decoder.Decode(cfg)
 	if err != nil {
-		configLoadError(&err)
+		configLoadError("file", &err)
 	}
-	log.Println("Configuration loading complete...")
+	log.Println("Configuration loading complete from file...")
 }
