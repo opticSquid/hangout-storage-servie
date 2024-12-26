@@ -9,7 +9,7 @@ import (
 func CreatePlaylist(outputFilePath string, encoding string, log logger.Log) error {
 	log.Info("pipeline status status", "segementation and playlist creation", "starting")
 	videoFile := outputFilePath + "_" + encoding + "_"
-	audioFile := outputFilePath + "_" + encoding + "_audio.m4a"
+	audioFile := outputFilePath + "_" + encoding + "_audio.opus"
 	var cmd *exec.Cmd
 	var err error
 	cmd = exec.Command("MP4Box", "-dash", "4000", "-frag", "4000", "-rap", "-segment-name", "'segment_$RepresentationID$_'", videoFile+"320p.webm#video:id=320p", videoFile+"640p.webm#video:id=640p", audioFile+"#audio:id=English:role=main", "-out", outputFilePath+".mpd")
