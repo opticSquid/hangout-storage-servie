@@ -12,7 +12,7 @@ func CreatePlaylist(outputFilePath string, encoding string, log logger.Log) erro
 	audioFile := outputFilePath + "_" + encoding + "_audio.opus"
 	var cmd *exec.Cmd
 	var err error
-	cmd = exec.Command("MP4Box", "-dash", "4000", "-frag", "4000", "-rap", "-segment-name", "'segment_$RepresentationID$_'", "-fps", "30", videoFile+"320p.webm#video:id=320p", videoFile+"640p.webm#video:id=640p", videoFile+"1280p.webm#video:id=1280p", audioFile+"#audio:id=English:role=main", "-out", outputFilePath+".mpd")
+	cmd = exec.Command("MP4Box", "-dash", "4000", "-frag", "4000", "-rap", "-segment-name", "'segment_$RepresentationID$_'", "-fps", "30", videoFile+"320p.webm#video:id=320p", videoFile+"640p.webm#video:id=640p", videoFile+"1280p.webm#video:id=1280p", videoFile+"1920p.webm#video:id=1920p", audioFile+"#audio:id=English:role=main", "-out", outputFilePath+".mpd")
 	_, err = cmd.Output()
 	if err != nil {
 		log.Error("error in processing segmentation and playlist creation", "error", err.Error())
