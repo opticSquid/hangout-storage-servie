@@ -23,18 +23,10 @@ func (v *video) processMedia(cfg *config.Config, log logger.Log) error {
 	err = os.Mkdir(outputFolder, 0755)
 	if err != nil {
 		log.Error("could not create base output folder", "err", err.Error())
-		panic(err)
-	}
-	outputFolder = outputFolder + "/" + "vp9"
-	err = os.Mkdir(outputFolder, 0755)
-	if err != nil {
-		log.Error("could not create vp9 ouput folder", "err", err.Error())
-		panic(err)
 	}
 	err = processVp9(inputFile, outputFolder, filename, log)
 	if err != nil {
 		log.Error("error in vp9 pipeline", "error", err.Error())
-		panic(err)
 	}
 	return nil
 }

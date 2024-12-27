@@ -1,6 +1,7 @@
 package files
 
 import (
+	"os"
 	"os/exec"
 	"strings"
 
@@ -15,10 +16,19 @@ type image struct {
 func (i *image) processMedia(cfg *config.Config, log logger.Log) error {
 	splittedFilename := strings.Split(i.filename, ".")
 	inputFile := cfg.Path.Upload + "/" + i.filename
-	outputFile := cfg.Path.Storage + "/" + splittedFilename[0] + "/" + splittedFilename[0]
-	err := convertToAvif(inputFile, outputFile, log)
-	return err
-
+	outputFolder := cfg.Path.Storage + "/" + splittedFilename[0]
+	var err error
+	err = os.Mkdir(outputFolder, 0755)
+	if err != nil {
+		log.Error("could not create base output folder", "err", err.Error())
+		panic(err)
+	}
+	outputFile := outputFolder + "/" + splittedFilename[0]
+	err = convertToAvif(inputFile, outputFile, log)
+	if err != nil {
+		log.Error("error in avif pipeline", "error", err.Error())
+	}
+	return nil
 }
 
 func convertToAvif(inputFile string, outputFile string, log logger.Log) error {
