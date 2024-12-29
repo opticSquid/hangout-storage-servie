@@ -6,6 +6,7 @@ import (
 
 	"hangout.com/core/storage-service/config"
 	"hangout.com/core/storage-service/files/abr"
+	"hangout.com/core/storage-service/files/h265"
 	"hangout.com/core/storage-service/files/vp9"
 	"hangout.com/core/storage-service/logger"
 )
@@ -24,9 +25,9 @@ func (v *video) processMedia(cfg *config.Config, log logger.Log) error {
 	if err != nil {
 		log.Error("could not create base output folder", "err", err.Error())
 	}
-	err = processVp9(inputFile, outputFolder, filename, log)
+	err = processH265(inputFile, outputFolder, filename, log)
 	if err != nil {
-		log.Error("error in vp9 pipeline", "error", err.Error())
+		log.Error("error in video processing pipeline", "error", err.Error())
 	}
 	return nil
 }
@@ -40,5 +41,16 @@ func processVp9(inputFilePath string, outputFolder string, filename string, log 
 	vp9.ProcessAudio(inputFilePath, outputFilePath, log)
 	abr.CreatePlaylist(outputFilePath, "vp9", log)
 	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "vp9", "status", "finished processing")
+	return nil
+}
+func processH265(inputFilePath string, outputFolder string, filename string, log logger.Log) error {
+	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "h265", "status", "starting processing")
+	outputFilePath := outputFolder + "/" + filename
+	log.Debug("Input", "Input file path", inputFilePath)
+	log.Debug("Input", "output file path", outputFilePath)
+	h265.ProcessSDRResolutions(inputFilePath, outputFilePath, log)
+	h265.ProcessAudio(inputFilePath, outputFilePath, log)
+	abr.CreatePlaylist(outputFilePath, "h265", log)
+	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "h265", "status", "finished processing")
 	return nil
 }
