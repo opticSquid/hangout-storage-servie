@@ -10,7 +10,7 @@ log:
 
 path:
     upload: /media/soumalya/793f3da3-8908-48a8-a4ce-a638275951fa/hangout-upload-path
-    storage: /media/soumalya/793f3da3-8908-48a8-a4ce-a638275951fa/hangout-processed-path
+    storage: /media/soumalya/793f3da3-8908-48a8-a4ce-a638275951fa/hangout-storage-path
     
 process:
     queue-length: 100
