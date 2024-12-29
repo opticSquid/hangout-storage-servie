@@ -46,8 +46,8 @@ func processVp9(inputFilePath string, outputFolder string, filename string, log 
 func processH265(inputFilePath string, outputFolder string, filename string, log logger.Log) error {
 	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "h265", "status", "starting processing")
 	outputFilePath := outputFolder + "/" + filename
-	log.Debug("Input", "Input file path", inputFilePath)
-	log.Debug("Input", "output file path", outputFilePath)
+	log.Debug("Check", "Input file path", inputFilePath)
+	log.Debug("Check", "Output file path", outputFilePath)
 	h265.ProcessSDRResolutions(inputFilePath, outputFilePath, log)
 	h265.ProcessAudio(inputFilePath, outputFilePath, log)
 	abr.CreatePlaylist(outputFilePath, "h265", log)

@@ -29,7 +29,7 @@ func process640p(inputFilePath string, outputFilePath string, log logger.Log) er
 	var cmd *exec.Cmd
 	var err error
 	outputFilePath = outputFilePath + "_h265_640p.mp4"
-	cmd = exec.Command("ffmpeg", "-i", inputFilePath, "-c:v", "libx265", "-crf 25", "-vf", "scale=320x640", "-preset", "slow", "-an", outputFilePath)
+	cmd = exec.Command("ffmpeg", "-i", inputFilePath, "-c:v", "libx265", "-crf", "25", "-vf", "scale=320x640", "-preset", "slow", "-an", outputFilePath)
 	_, err = cmd.Output()
 	if err != nil {
 		log.Error("error in processing video", "file", inputFilePath, "encoder", "h265", "resolution", "360x640", "error", err.Error())
@@ -45,7 +45,7 @@ func process1280p(inputFilePath string, outputFilePath string, log logger.Log) e
 	var cmd *exec.Cmd
 	var err error
 	outputFilePath = outputFilePath + "_h265_1280p.mp4"
-	cmd = exec.Command("ffmpeg", "-i", inputFilePath, "-c:v", "libx265", "-crf 25", "-vf", "scale=720x1280", "-preset", "slow", "-an", outputFilePath)
+	cmd = exec.Command("ffmpeg", "-i", inputFilePath, "-c:v", "libx265", "-crf", "25", "-vf", "scale=720x1280", "-preset", "slow", "-an", outputFilePath)
 	_, err = cmd.Output()
 	if err != nil {
 		log.Error("error in processing video", "file", inputFilePath, "encoder", "h265", "resolution", "720x1280", "pass", "1", "error", err.Error())
@@ -61,7 +61,7 @@ func process1920p(inputFilePath string, outputFilePath string, log logger.Log) e
 	var cmd *exec.Cmd
 	var err error
 	outputFilePath = outputFilePath + "_h265_1920p.mp4"
-	cmd = exec.Command("ffmpeg", "-i", inputFilePath, "-c:v", "libx265", "-crf 25", "-vf", "scale=1080x1920", "-preset", "slow", "-an", outputFilePath)
+	cmd = exec.Command("ffmpeg", "-i", inputFilePath, "-c:v", "libx265", "-crf", "25", "-vf", "scale=1080x1920", "-preset", "slow", "-an", outputFilePath)
 	_, err = cmd.Output()
 	if err != nil {
 		log.Error("error in processing video", "file", inputFilePath, "encoder", "h265", "resolution", "1080x1920", "error", err.Error())
