@@ -34,6 +34,8 @@ func (v *video) processMedia(cfg *config.Config, log logger.Log) error {
 func processVp9(inputFilePath string, outputFolder string, filename string, log logger.Log) error {
 	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "vp9", "status", "starting processing")
 	outputFilePath := outputFolder + "/" + filename
+	log.Debug("Input", "Input file path", inputFilePath)
+	log.Debug("Input", "output file path", outputFilePath)
 	vp9.ProcessSDRResolutions(inputFilePath, outputFilePath, log)
 	vp9.ProcessAudio(inputFilePath, outputFilePath, log)
 	abr.CreatePlaylist(outputFilePath, "vp9", log)
