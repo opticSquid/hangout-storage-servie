@@ -1,4 +1,4 @@
-package h265
+package h264
 
 import (
 	"os/exec"
@@ -10,7 +10,7 @@ func ProcessAudio(inputFilePath string, outputFilePath string, log logger.Log) e
 	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "aac", "media-type", "audio", "status", "starting processing")
 	var cmd *exec.Cmd
 	var err error
-	outputFilePath = outputFilePath + "_h265_audio.mp4"
+	outputFilePath = outputFilePath + "_h264_audio.mp4"
 	log.Debug("Input", "Input file path", inputFilePath)
 	log.Debug("Input", "output file path", outputFilePath)
 	cmd = exec.Command("ffmpeg", "-i", inputFilePath, "-vn", "-c:a", "aac", outputFilePath)
