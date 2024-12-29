@@ -6,7 +6,7 @@ import (
 
 	"hangout.com/core/storage-service/config"
 	"hangout.com/core/storage-service/files/abr"
-	"hangout.com/core/storage-service/files/h265"
+	"hangout.com/core/storage-service/files/h264"
 	"hangout.com/core/storage-service/files/vp9"
 	"hangout.com/core/storage-service/logger"
 )
@@ -25,7 +25,7 @@ func (v *video) processMedia(cfg *config.Config, log logger.Log) error {
 	if err != nil {
 		log.Error("could not create base output folder", "err", err.Error())
 	}
-	err = processH265(inputFile, outputFolder, filename, log)
+	err = processH264(inputFile, outputFolder, filename, log)
 	if err != nil {
 		log.Error("error in video processing pipeline", "error", err.Error())
 	}
@@ -43,14 +43,14 @@ func processVp9(inputFilePath string, outputFolder string, filename string, log 
 	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "vp9", "status", "finished processing")
 	return nil
 }
-func processH265(inputFilePath string, outputFolder string, filename string, log logger.Log) error {
-	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "h265", "status", "starting processing")
+func processH264(inputFilePath string, outputFolder string, filename string, log logger.Log) error {
+	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "h264", "status", "starting processing")
 	outputFilePath := outputFolder + "/" + filename
 	log.Debug("Check", "Input file path", inputFilePath)
 	log.Debug("Check", "Output file path", outputFilePath)
-	h265.ProcessSDRResolutions(inputFilePath, outputFilePath, log)
-	h265.ProcessAudio(inputFilePath, outputFilePath, log)
-	abr.CreatePlaylist(outputFilePath, "h265", log)
-	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "h265", "status", "finished processing")
+	h264.ProcessSDRResolutions(inputFilePath, outputFilePath, log)
+	h264.ProcessAudio(inputFilePath, outputFilePath, log)
+	abr.CreatePlaylist(outputFilePath, "h264", log)
+	log.Info("pipeline checkpoint", "file", inputFilePath, "enocder", "h264", "status", "finished processing")
 	return nil
 }
