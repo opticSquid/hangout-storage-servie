@@ -9,13 +9,13 @@ import (
 func CreatePlaylist(outputFilePath string, encoding string, log logger.Log) error {
 	log.Info("pipeline status status", "segementation and playlist creation", "starting")
 	videoFile := outputFilePath + "_" + encoding + "_"
-	audioFile := outputFilePath + "_" + encoding + "_audio.opus"
+	audioFile := outputFilePath + "_" + encoding + "_audio.mp4"
 	var cmd *exec.Cmd
 	var err error
 	log.Debug("Input", "video file path", videoFile)
 	log.Debug("Input", "audio file path", audioFile)
 	log.Debug("Input", "output file path", outputFilePath)
-	cmd = exec.Command("ffmpeg", "-i", videoFile+"640p.webm", "-i", videoFile+"1280p.webm", "-i", videoFile+"1920p.webm", "-i", audioFile, "-map", "0:v", "-c:v", "copy", "-map", "1:v", "-c:v", "copy", "-map", "2:v", "-c:v", "copy", "-map 3:a", "-c:a", "copy", "-keyint_min", "60", "-g", "60", "-use_timeline", "1", "-use_template", "1", outputFilePath+".mpd")
+	cmd = exec.Command("MP4Box", "-dash", "2000", "-frag", "2000", "-rap", "-segment-name", "segment_$RepresentationID$_", "-fps", "30", videoFile+"640p.mp4#video:id=640p", videoFile+"1280p.mp4#video:id=1280p", videoFile+"1920p.mp4#video:id=1920p", audioFile+"#audio:id=English:role=main", "-out", outputFilePath+".mpd")
 	_, err = cmd.Output()
 	if err != nil {
 		log.Error("error in processing segmentation and playlist creation", "error", err.Error())
