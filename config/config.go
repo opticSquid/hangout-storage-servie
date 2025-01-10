@@ -15,10 +15,13 @@ type Config struct {
 		Level   string `yaml:"level", envconfig:"LOG_LEVEL"`
 		Backend string `yaml:"backend", envconfig:"LOG_BACKEND"`
 	} `yaml:"log"`
-	Path struct {
-		Upload  string `yaml:"upload", envconfig:"PATH_UPLOAD"`
-		Storage string `yaml:"storage", envconfig:"PATH_STORAGE"`
-	} `yaml:"path"`
+	Minio struct {
+		BaseUrl       string `yaml:"base-url", envconfig:"MINIO_BASEURL"`
+		AccessKey     string `yaml:"access-key", envconfig: "MINIO_ACCESSKEY"`
+		SecretKey     string `yaml:"secret-key", envconfig:"MINIO_SECRETKEY"`
+		UploadBucket  string `yaml:"upload-bucket", envconfig:"MINIO_UPLOADBUCKET"`
+		StorageBucket string `yaml:"storage-bucket", envconfig:"MINIO_STORAGEBUCKET"`
+	} `yaml:"minio"`
 	Process struct {
 		QueueLength  int `yaml:"queue-length", envconfig:"PROCESS_QUEUELENGTH"`
 		PoolStrength int `yaml:"pool-strength", envconfig:"PROCESS_POOLSTRENGTH"`

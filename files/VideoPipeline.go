@@ -17,8 +17,8 @@ type video struct {
 
 func (v *video) processMedia(cfg *config.Config, log logger.Log) error {
 	splittedFilename := strings.Split(v.filename, ".")
-	inputFile := cfg.Path.Upload + "/" + v.filename
-	outputFolder := cfg.Path.Storage + "/" + splittedFilename[0]
+	inputFile := cfg.Minio.UploadBucket + "/" + v.filename
+	outputFolder := cfg.Minio.StorageBucket + "/" + splittedFilename[0]
 	filename := splittedFilename[0]
 	var err error
 	err = os.Mkdir(outputFolder, 0755)
