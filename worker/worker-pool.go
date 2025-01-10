@@ -30,7 +30,7 @@ func CreateWorkerPool(eventChan <-chan *files.File, ctx context.Context, cfg *co
 
 func (wp *WorkerPool) worker(workerId int) {
 	defer wp.wg.Done()
-	minioClient, err := cloudstorage.Connect(wp.ctx, wp.cfg, wp.log)
+	minioClient, err := cloudstorage.Connect(workerId, wp.ctx, wp.cfg, wp.log)
 	if err != nil {
 		return
 	}

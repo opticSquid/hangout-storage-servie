@@ -9,7 +9,7 @@ log:
   backend: zerolog
 
 minio:
-    base-url: http://localhost:9000
+    base-url: localhost:9000
     access-key: vLmiqXs8DUB2jwocd14W
     secret-key: mK5ByFQJKbm2nsjBvyLmkggITrP0sdfSPbspvr45
     upload-bucket: hangout-upload-path
