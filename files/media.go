@@ -6,5 +6,5 @@ import (
 )
 
 type media interface {
-	processMedia(cfg *config.Config, log logger.Log) error
+	processMedia(workerId int, cfg *config.Config, log logger.Log) error
 }

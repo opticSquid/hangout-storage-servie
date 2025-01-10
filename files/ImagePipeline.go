@@ -13,7 +13,7 @@ type image struct {
 	filename string
 }
 
-func (i *image) processMedia(cfg *config.Config, log logger.Log) error {
+func (i *image) processMedia(workerId int, cfg *config.Config, log logger.Log) error {
 	splittedFilename := strings.Split(i.filename, ".")
 	inputFile := cfg.Minio.UploadBucket + "/" + i.filename
 	outputFolder := cfg.Minio.StorageBucket + "/" + splittedFilename[0]
