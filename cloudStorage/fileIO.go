@@ -53,7 +53,7 @@ func Download(workerId int, ctx context.Context, minioClient *minio.Client, file
 		log.Error("Error occured while downloading file", "file", file.Filename, "worker-id", workerId)
 	}
 	defer object.Close()
-	localFile, err := os.Create("../content/" + file.Filename)
+	localFile, err := os.Create("/tmp/" + file.Filename)
 	if err != nil {
 		log.Error("Error creating file in local folder", "error", err, "file", file.Filename, "worker-id", workerId)
 	}
