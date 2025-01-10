@@ -44,12 +44,12 @@ func (wp *WorkerPool) worker(workerId int) {
 			wp.log.Info("starting file processing", "file-name", file.Filename, "user-id", file.UserId, "worker-id", workerId)
 
 			// download the given file from cloud storage
-			cloudstorage.Download(minioClient, file, wp.cfg, wp.log)
+			cloudstorage.Download(workerId, wp.ctx, minioClient, file, wp.cfg, wp.log)
 			// process the file
-			err := file.Process(wp.cfg, wp.log)
-			if err != nil {
-				wp.log.Error("could not process file", "error", err.Error())
-			}
+			// err := file.Process(wp.cfg, wp.log)
+			// if err != nil {
+			// 	wp.log.Error("could not process file", "error", err.Error())
+			// }
 			wp.log.Info("finished file processing", "file-name", file.Filename, "worker-id", workerId)
 		case <-wp.ctx.Done():
 			wp.log.Info("Context cancelled, stopping worker", "worker-id", workerId)
