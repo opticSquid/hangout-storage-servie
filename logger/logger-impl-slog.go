@@ -7,7 +7,7 @@ import (
 	"hangout.com/core/storage-service/config"
 )
 
-type SlogLogger struct {
+type slogLogger struct {
 	log *slog.Logger
 }
 
@@ -25,21 +25,21 @@ func NewSlogLogger(cfg *config.Config) Log {
 	}
 	sl := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: logLevel}))
 	slog.SetDefault(sl)
-	return &SlogLogger{log: sl}
+	return &slogLogger{log: sl}
 }
 
-func (sl *SlogLogger) Debug(message string, keysAndValues ...interface{}) {
+func (sl *slogLogger) Debug(message string, keysAndValues ...interface{}) {
 	sl.log.Debug(message, keysAndValues...)
 }
 
-func (sl *SlogLogger) Info(message string, keysAndValues ...interface{}) {
+func (sl *slogLogger) Info(message string, keysAndValues ...interface{}) {
 	sl.log.Info(message, keysAndValues...)
 }
 
-func (sl *SlogLogger) Warn(message string, keysAndValues ...interface{}) {
+func (sl *slogLogger) Warn(message string, keysAndValues ...interface{}) {
 	sl.log.Warn(message, keysAndValues...)
 }
 
-func (sl *SlogLogger) Error(message string, keysAndValues ...interface{}) {
+func (sl *slogLogger) Error(message string, keysAndValues ...interface{}) {
 	sl.log.Error(message, keysAndValues...)
 }

@@ -19,7 +19,6 @@ func main() {
 	config.ReadFile(&cfg)
 	config.ReadEnv(&cfg)
 	log := logger.NewLogger(&cfg)
-	log.Debug("printing current config", "config", cfg)
 	// Create a base context with a cancel function for the application lifecycle
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel() // Ensure cancel is called on application exit
