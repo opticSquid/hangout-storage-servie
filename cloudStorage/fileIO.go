@@ -2,8 +2,6 @@ package cloudstorage
 
 import (
 	"context"
-	"io"
-	"os"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -48,18 +46,8 @@ func Connect(workerId int, ctx context.Context, cfg *config.Config, log logger.L
 }
 func Download(workerId int, ctx context.Context, minioClient *minio.Client, file *files.File, cfg *config.Config, log logger.Log) {
 	log.Info("Downloading file", "file", file.Filename, "worker-id", workerId)
-	object, err := minioClient.GetObject(ctx, cfg.Minio.UploadBucket, file.Filename, minio.GetObjectOptions{})
+	err := minioClient.FGetObject(ctx, cfg.Minio.UploadBucket, file.Filename, "/tmp/"+file.Filename, minio.GetObjectOptions{})
 	if err != nil {
 		log.Error("Error occured while downloading file", "file", file.Filename, "worker-id", workerId)
-	}
-	defer object.Close()
-	localFile, err := os.Create("/tmp/" + file.Filename)
-	if err != nil {
-		log.Error("Error creating file in local folder", "error", err, "file", file.Filename, "worker-id", workerId)
-	}
-	defer localFile.Close()
-
-	if _, err := io.Copy(localFile, object); err != nil {
-		log.Error("could not copy the downloaded object to local file", "error", err, "file", file.Filename, "worker-id", workerId)
 	}
 }
