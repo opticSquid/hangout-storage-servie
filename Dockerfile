@@ -13,7 +13,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o main .
 FROM ubuntu:noble
 
 # Install necessary packages with optimizations
-RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg imagemagick && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg imagemagick gpac && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy the built binary from the previous stage
 COPY --from=builder /app/main /
