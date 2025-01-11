@@ -87,7 +87,7 @@ func UploadDir(workerId int, ctx context.Context, minioClient *minio.Client, eve
 			return err
 		}
 		defer file.Close()
-		log.Debug("opened file for uploading", "file", file, "worker-id", workerId)
+		log.Debug("opened file for uploading", "file", file.Name(), "worker-id", workerId)
 		// Upload the file
 		objectName := baseFilename + "/" + info.Name()
 		log.Debug("printing upload params", "storage-bucket", cfg.Minio.StorageBucket, "object-name", objectName, "file-location", file.Name(), "worker-id", workerId)

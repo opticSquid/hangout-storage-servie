@@ -7,6 +7,7 @@ import (
 	"hangout.com/core/storage-service/config"
 	"hangout.com/core/storage-service/files/abr"
 	"hangout.com/core/storage-service/files/h264"
+	"hangout.com/core/storage-service/files/postprocess"
 	"hangout.com/core/storage-service/files/vp9"
 	"hangout.com/core/storage-service/logger"
 )
@@ -29,6 +30,7 @@ func (v *video) processMedia(workerId int, cfg *config.Config, log logger.Log) e
 	if err != nil {
 		log.Error("error in video processing pipeline", "error", err.Error(), "worker-id", workerId)
 	}
+	postprocess.CleanUp(workerId, "h264", v.filename, log)
 	return nil
 }
 
