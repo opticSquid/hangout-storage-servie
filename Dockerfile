@@ -1,25 +1,21 @@
 FROM golang:1.23-bookworm AS builder
 
-# Set the working directory
 WORKDIR /app
 
-# Copy the Go source code to the working directory
-COPY . .
+# Copy only necessary files
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . . 
 
-# Build the Go application
-RUN go build -o main .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o main .
 
 # Create a new stage for the final image
 FROM ubuntu:noble
 
-# Install necessary packages
-RUN apt-get update && apt-get install -y ffmpeg imagemagick gpac
+# Install necessary packages with optimizations
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg imagemagick && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy the built binary from the previous stage
 COPY --from=builder /app/main /
-
-# Set the working directory
 WORKDIR /
-
-# Define the command to run the application
 CMD ["./main"]
