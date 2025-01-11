@@ -50,6 +50,8 @@ func (wp *WorkerPool) worker(workerId int) {
 			if err != nil {
 				wp.log.Error("could not process file", "error", err.Error(), "worker-id", workerId)
 			}
+			// upload the given file to cloud storage
+			cloudstorage.UploadDir(workerId, wp.ctx, minioClient, file, wp.cfg, wp.log)
 			wp.log.Info("finished file processing", "file-name", file.Filename, "worker-id", workerId)
 		case <-wp.ctx.Done():
 			wp.log.Info("Context cancelled, stopping worker", "worker-id", workerId)

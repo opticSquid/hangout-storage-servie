@@ -2,6 +2,10 @@ package cloudstorage
 
 import (
 	"context"
+	"mime"
+	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -49,5 +53,73 @@ func Download(workerId int, ctx context.Context, minioClient *minio.Client, file
 	err := minioClient.FGetObject(ctx, cfg.Minio.UploadBucket, file.Filename, "/tmp/"+file.Filename, minio.GetObjectOptions{})
 	if err != nil {
 		log.Error("Error occured while downloading file", "file", file.Filename, "worker-id", workerId)
+	}
+}
+
+func UploadDir(workerId int, ctx context.Context, minioClient *minio.Client, event *files.File, cfg *config.Config, log logger.Log) {
+	baseFilename := strings.Split(event.Filename, ".")[0]
+	currentDir := "/tmp/" + baseFilename
+	log.Info("Starting to upload directory to Minio/s3", "directory", currentDir, "worker-id", workerId)
+	// Walk through the folder and upload files
+	err := filepath.Walk(currentDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			log.Error("Error occured while traversing through current file in the directory", "file", event.Filename, "error", err, "worker-id", workerId)
+			return err
+		}
+		log.Debug("trying to upload file", "file name", info.Name(), "path", path, "worker-id", workerId)
+		// Skip directories
+		if info.IsDir() {
+			log.Debug("A nested dirctory was encountered, skipping uploading the directory", "directory", info.Name(), "worker-id", workerId)
+			return nil
+		}
+
+		// Determine content type based on file extension
+		contentType := getContentType(filepath.Ext(path))
+		if contentType == "" {
+			log.Debug("Skipping uploading unsupported file type", "file", info.Name(), "worker-id", workerId)
+			return nil
+		}
+
+		// Open the file for reading
+		file, err := os.Open(path)
+		if err != nil {
+			log.Error("could not open the file in the directory", "file", file.Name(), "error", err, "worker-id", workerId)
+			return err
+		}
+		defer file.Close()
+		log.Debug("opened file for uploading", "file", file, "worker-id", workerId)
+		// Upload the file
+		objectName := baseFilename + "/" + info.Name()
+		log.Debug("printing upload params", "storage-bucket", cfg.Minio.StorageBucket, "object-name", objectName, "file-location", file.Name(), "worker-id", workerId)
+		_, err = minioClient.FPutObject(ctx, cfg.Minio.StorageBucket, objectName, file.Name(), minio.PutObjectOptions{
+			ContentType: contentType,
+		})
+		if err != nil {
+			log.Error("Failed to upload file", "file", file.Name(), "error", err, "worker-id", workerId)
+			return err
+		}
+
+		log.Debug("Uploaded file into Minio/s3 storage", "object-name", objectName, "file-location", file.Name(), "content-type", contentType)
+		return nil
+	})
+
+	if err != nil {
+		log.Error("Error walking the folder", "folder", currentDir, "error", err, "worker-id", workerId)
+	}
+	log.Info("Folder uploaded successfully", "directory", currentDir, "worker-id", workerId)
+}
+
+func getContentType(extension string) string {
+	switch extension {
+	case ".mpd":
+		return "application/dash+xml"
+	case ".mp4":
+		return "video/mp4"
+	case ".m4s":
+		return "video/iso.segment"
+	case ".avif":
+		return "image/avif"
+	default:
+		return mime.TypeByExtension(extension) // Fallback to the standard MIME detection
 	}
 }
