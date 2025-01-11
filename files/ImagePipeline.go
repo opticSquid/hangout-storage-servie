@@ -15,8 +15,8 @@ type image struct {
 
 func (i *image) processMedia(workerId int, cfg *config.Config, log logger.Log) error {
 	splittedFilename := strings.Split(i.filename, ".")
-	inputFile := cfg.Minio.UploadBucket + "/" + i.filename
-	outputFolder := cfg.Minio.StorageBucket + "/" + splittedFilename[0]
+	inputFile := "/tmp/" + i.filename
+	outputFolder := "/tmp/" + splittedFilename[0]
 	var err error
 	err = os.Mkdir(outputFolder, 0755)
 	if err != nil {
